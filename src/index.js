@@ -6,15 +6,15 @@ import mongoose from 'mongoose';
 const app = express()
 
 async function start() {
-    try {
-        const server = createServer(app);
-        await mongoose.connect(MONGO_URL);
-        server.listen(HTTP_PORT, () => {
-            console.log(`Server: http://${HTTP_HOST}:${HTTP_PORT}`);
-        })
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    const server = createServer(app);
+    await mongoose.connect(MONGO_URL);
+    server.listen(HTTP_PORT, () => {
+      console.log(`Server: http://${HTTP_HOST}:${HTTP_PORT}`);
+    })
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 start();
