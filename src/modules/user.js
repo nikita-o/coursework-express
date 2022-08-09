@@ -1,8 +1,19 @@
+import { userModel } from '../models/user';
 
-export async function create(data) {
-
+export function create(data) {
+  try {
+    const newUser = new userModel(data);
+    return newUser.save()
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-export async function findByEmail(email) {
-
+export function findByEmail(email) {
+  try {
+    const user = userModel.findOne({ email }).select('-__v');
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
 }
