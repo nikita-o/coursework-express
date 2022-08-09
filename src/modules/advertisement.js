@@ -6,10 +6,10 @@ export function find(params) {
     const searchParams = { isDeleted: false };
 
     if (shortText) {
-      searchParams.shortText = { $regex: shortText};
+      searchParams.shortText = { $regex: shortText };
     }
     if (description) {
-      searchParams.description = { $regex: description};
+      searchParams.description = { $regex: description };
     }
     if (userId) {
       searchParams.user = userId;
@@ -40,6 +40,15 @@ export function remove(id) {
       $set: { isDeleted: true }
     });
     return advertisement;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export function findById(id) {
+  try {
+    const advertisements = advertisementModel.findById(id);
+    return advertisements;
   } catch (error) {
     console.error(error);
   }
