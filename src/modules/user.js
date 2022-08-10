@@ -1,6 +1,6 @@
-import { userModel } from '../models/user';
+import { userModel } from '../models/user.js';
 
-export function create(data) {
+function create(data) {
   try {
     const newUser = new userModel(data);
     return newUser.save()
@@ -9,7 +9,7 @@ export function create(data) {
   }
 }
 
-export function findByEmail(email) {
+function findByEmail(email) {
   try {
     const user = userModel.findOne({ email }).select('-__v');
     return user;
@@ -18,7 +18,7 @@ export function findByEmail(email) {
   }
 }
 
-export function findById(id) {
+function findById(id) {
   try {
     const user = userModel.findById(id);
     return user;
@@ -26,3 +26,5 @@ export function findById(id) {
     console.error(error);
   }
 }
+
+export default {create, findByEmail, findById }
