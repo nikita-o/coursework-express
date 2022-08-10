@@ -1,4 +1,4 @@
-import { advertisementModel } from '../models/advertisement';
+import { advertisementModel } from '../models/advertisement.js';
 
 export function find(params) {
   try {
@@ -27,6 +27,10 @@ export function find(params) {
 
 export function create(data) {
   try {
+    data.createdAt = Date.now();
+    data.updatedAt = Date.now();
+    data.isDeleted = false;
+
     const newAdvertisement = new advertisementModel(data);
     return newAdvertisement.save()
   } catch (error) {
@@ -53,3 +57,5 @@ export function findById(id) {
     console.error(error);
   }
 }
+
+export default {findById, find, remove, create}

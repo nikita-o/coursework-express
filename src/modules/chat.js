@@ -59,3 +59,5 @@ export function getHistory(id) {
     console.error(error);
   }
 }
+
+export default {getHistory, subscribe, sendMessage, find}
