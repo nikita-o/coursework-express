@@ -1,5 +1,8 @@
 import { chatModel } from '../models/chat'
 import { messageModel } from '../models/message'
+import { EventEmitter } from 'events'
+
+const sendMessageEvent = new EventEmitter()
 
 export function find(users) {
   try {
@@ -12,14 +15,13 @@ export function find(users) {
 
 export function sendMessage(data) {
   try {
-    // TODO:
     const {author, receiver, text} = data;
 
     const message = new messageModel({
       author: author,
       sentAt: Date.now(),
       text: text,
-    }).save();
+    });
 
     let chat = await chatModel.findOne({ users: [author, receiver] });
     if (!chat) {
@@ -28,8 +30,14 @@ export function sendMessage(data) {
         createdAt: Date.now(),
       });
     }
-    chat.messages.push(message)
-    chat.save()
+    chat.messages.push(message);
+    chat.save();
+
+    sendMessageEvent.emit('send-message', {
+      chatId: chat._id,
+      message,
+    });
+
     return message;
 
   } catch (error) {
@@ -37,12 +45,10 @@ export function sendMessage(data) {
   }
 }
 
-export function subscribe(params) {
-  try {
-    // TODO:
-  } catch (error) {
-    console.error(error);
-  }
+export function subscribe(callback) {
+  sendMessageEvent.on('send-message', (args) => {
+    callback(args);
+  });
 }
 
 export function getHistory(id) {

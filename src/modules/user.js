@@ -17,3 +17,12 @@ export function findByEmail(email) {
     console.error(error);
   }
 }
+
+export function findById(id) {
+  try {
+    const user = userModel.findById(id);
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+}
