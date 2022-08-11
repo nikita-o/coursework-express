@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { model, Schema } = mongoose;
 
-import { messageSchema } from './message'
+import { messageSchema } from './message.js'
 
 const { ObjectId } = Schema.Types;
 
@@ -11,4 +11,4 @@ const chatSchema = new Schema({
   messages:   { type: [messageSchema],  required: false,  unique: false },
 });
 
-export const chatModel = model('Message', chatSchema);
+export const chatModel = model('Chat', chatSchema);

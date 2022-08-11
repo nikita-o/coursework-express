@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import chatModule from '../modules/chat';
+import chatModule from '../modules/chat.js';
 
 export function chatSocketInit(server) {
   const io = new Server(server);
@@ -9,7 +9,7 @@ export function chatSocketInit(server) {
     const { idAuthor } = socket.handshake.query;
     socket.join(idAuthor);
 
-    socket.on('getHistory', (idСompanion) => {
+    socket.on('getHistory', async (idСompanion) => {
       const users = {
         idAuthor: idAuthor,
         idReceiver: idСompanion
@@ -25,7 +25,7 @@ export function chatSocketInit(server) {
       socket.emit('chat-history', chatHistory);
     })
 
-    socket.on('sendMessage', (data) => {
+    socket.on('sendMessage', async (data) => {
       data.idAuthor = idAuthor;
       const message = await chatModule.sendMessage(data);
       socket.emit('new-message', message);

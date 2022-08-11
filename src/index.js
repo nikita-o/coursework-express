@@ -9,6 +9,7 @@ import { unknownReq } from './middlewares/error404.js';
 import session from 'express-session';
 import passport from 'passport';
 import { initPassport } from './auth/passport.js';
+import { chatSocketInit } from './sockets/chat.js';
 
 const app = express()
 
@@ -31,6 +32,7 @@ async function start() {
   try {
     const server = createServer(app);
     await mongoose.connect(MONGO_URL);
+    chatSocketInit(server);
     server.listen(HTTP_PORT, () => {
       console.log(`Server: http://${HTTP_HOST}:${HTTP_PORT}`);
     })

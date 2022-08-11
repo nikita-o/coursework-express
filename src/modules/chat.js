@@ -1,5 +1,5 @@
-import { chatModel } from '../models/chat'
-import { messageModel } from '../models/message'
+import { chatModel } from '../models/chat.js'
+import { messageModel } from '../models/message.js'
 import { EventEmitter } from 'events'
 
 const sendMessageEvent = new EventEmitter()
@@ -13,7 +13,7 @@ export function find(users) {
   }
 }
 
-export function sendMessage(data) {
+export async function sendMessage(data) {
   try {
     const {author, receiver, text} = data;
 
