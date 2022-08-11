@@ -6,7 +6,7 @@ const sendMessageEvent = new EventEmitter()
 
 export function find(users) {
   try {
-    const chat = chatModel.findOne({ users });
+    const chat = chatModel.findOne(users);
     return chat;
   } catch (error) {
     console.error(error);

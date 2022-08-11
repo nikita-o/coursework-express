@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import chatModule from '../modules/chat';
 
 export function chatSocketInit(server) {
   const io = new Server(server);
@@ -8,14 +9,30 @@ export function chatSocketInit(server) {
     const { idAuthor } = socket.handshake.query;
     socket.join(idAuthor);
 
-    socket.on('getHistory', (args) => {
-      const chatHistory = null;
+    socket.on('getHistory', (idСompanion) => {
+      const users = {
+        idAuthor: idAuthor,
+        idReceiver: idСompanion
+      }
+      const chat = await chatModule.find(users);
+      const chatHistory = chat
+      ? await chatModule.getHistory(connectChat._id)
+      : {
+          data: 'Несуществующий чат',
+          status: 'error',
+        };
+
       socket.emit('chat-history', chatHistory);
     })
 
-    socket.on('sendMessage', (args) => {
-      const message = null;
+    socket.on('sendMessage', (data) => {
+      data.idAuthor = idAuthor;
+      const message = await chatModule.sendMessage(data);
       socket.emit('new-message', message);
     })
+
+    socket.on('disconnect', () => {
+      console.log(`Socket disconnected: ${id}`);
+    });
   })
 }
