@@ -1,32 +1,14 @@
 import { Router } from 'express';
 import passport from 'passport';
-
 import userModule from '../modules/user.js';
-import {createHash} from 'crypto'
 
 export const router = Router();
 
 router
 .post('/signup',
 async (req, res) => {
-  const {email, password, name, contactPhone} = req.body;
   try {
-    const user = await userModule.findByEmail(email);
-    if (user) {
-      return res.json({
-        error: 'Пользователь уже существует',
-        status: 'error',
-      });
-    }
-
-    const passwordHash = createHash('md5').update(password).digest('hex');
-
-    const newUser = await userModule.create({
-      name,
-      passwordHash,
-      email,
-      contactPhone,
-    });
+    const newUser = await userModule.create(req.body);
     return res.json({
       data: newUser,
       status: 'ok',
