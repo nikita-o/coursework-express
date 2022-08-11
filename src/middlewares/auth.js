@@ -1,5 +1,5 @@
 export const isAuth = (req, res, next) => {
-  if (!req.isAuthenticated) {
+  if (req.isUnauthenticated()) {
     return res.status(401).json({
       error: 'Не аутентифицированый пользователь!',
       status: "error"

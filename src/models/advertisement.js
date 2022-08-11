@@ -4,7 +4,7 @@ const { model, Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
 const advertisementSchema = new Schema({
-    shortText:    { type: String,   required: true,   unique: false },
+    shotrTitle:    { type: String,   required: true,   unique: false },
     description:  { type: String,   required: false,  unique: false },
     images:       { type: [String], required: false,  unique: false },
     userId:       { type: ObjectId, required: true,   unique: false },

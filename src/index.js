@@ -10,6 +10,14 @@ import session from 'express-session';
 import passport from 'passport';
 import { initPassport } from './auth/passport.js';
 import { chatSocketInit } from './sockets/chat.js';
+import fs from 'fs';
+
+if (!fs.existsSync('public')) {
+  fs.mkdirSync('public');
+}
+if (!fs.existsSync('public/images')) {
+  fs.mkdirSync('public/images');
+}
 
 const app = express()
 

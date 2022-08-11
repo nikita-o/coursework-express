@@ -27,12 +27,13 @@ router
 })
 .post('/',
 isAuth,
-multer({ storage, fileFilter }).fields([{ name: 'images' }]),
+multer({ storage }).fields([{ name: 'images' }]),
 async (req, res) => {
   try {
     const data = req.body;
+    data.userId = req.user._id;
 
-    data.images = req?.files?.images.map(image => image.path);
+    data.images = req?.files?.images?.map(image => image.path);
 
     const advertisement = await advertisementModule.create(data);
     res.json({data: advertisement, status: 'ok'});
@@ -47,7 +48,8 @@ async (req, res) => {
     const { id } = req.params;
     const advertisement = await advertisementModule.findById(req.params.id);
 
-    if (!req.user._id.equals(advertisement.userId)) {
+    const idUser = req.user._id;
+    if (!idUser.equals(advertisement.userId)) {
       res.status(403).json({
         error: 'Пользователь не является автором объявления',
         status: 'error',
